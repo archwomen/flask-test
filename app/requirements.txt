@@ -1,5 +1,5 @@
-Flask
-Jinja2
-Markdown
-PyYAML
-Pygments
+flask
+jinja2
+markdown
+pyYAML
+pygments
