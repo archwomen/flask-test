@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <article>
+        <h1>Hello, this is a test</h1>
+        <p>test test test</p>
+    </article>
+    {% for post in posts %}
+      <article>
+        {{ post_html | markdown | safe }}
+      </article>
+    {% endfor %}
+{% endblock %}
