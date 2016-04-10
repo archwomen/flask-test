@@ -15,6 +15,9 @@ a:hover, a:active {
   text-decoration:none;
   color:#fff;
 }
+article {
+  padding: 0 1em 0 1em;
+}
 /* Grid */
 .clearfix:before, .clearfix:after {
   content: " ";
