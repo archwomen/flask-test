@@ -1,7 +1,7 @@
 /* Global Styles */
 body {
   margin: .5em;
-  font-family: sans-serif;
+  font-family: "Open Sans", "Fira Sans", "Verdana", "Source Sans Pro", "Dejavu Sans", "Droid Sans", "Helvetica", "Arial", sans-serif;
   font-size: 1.3em;
   color: #ccc;
   background-color: #333;
