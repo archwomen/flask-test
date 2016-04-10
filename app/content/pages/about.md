@@ -1,33 +1,37 @@
-## About
+# About Arch Women
 
-Versa is a flat file based content management system built with flask. You can
-save pages and posts as markdown files on your server and the CMS will display
-them. The code for this project is based off
-[kukkaisvoima](https://github.com/Petteri/kukkaisvoima) a python/cgi blog
-application with a nice set of features.
+The goal of Arch Women is to foster female involvement in Arch Linux and Free Open Source Software.
+The community is open to female Linux enthusiasts and users, and to the people who support them.
+If you would like to join us, please have a look at our community standards to get a feel for how our community is run.
 
-### Installation
+Arch Women has a monthly IRC meeting on the first Sunday of every month. They generally run for about 2 hours and start at 16:00 UTC.
 
-You will need python 2 and python virtualenv installed on your computer.
+The Arch Women Blog is a place to discuss and share information in a contained and moderated way. Submissions are welcome from anyone who would like to share something.
 
-Create the blog web directory and flask directory
+The #archlinux-women channel was created to provide a "safe space" for people to chat without the need to hide their gender or sexual identity. We also have other ways you can contact us.
 
-    mkdir -p /srv/http/blog/flask
+##History
 
-Download Versa and unzip the file to /srv/http/blog/
+Arch Women was founded in February 2012 by Dolores Portalatin - "meskarune". It sprang from an IRC conversation in #archlinux-offtopic about how few women openly contribute to the Arch Linux community. From there an IRC channel (#archlinux-women) was created for planning, a few long time Arch Linux users joined in, and two days later the main website was up and running. Since that time, Arch Women has changed servers twice and tripled in membership.
 
-    wget  https://github.com/meskarune/versa
-    unzip versa.zip
+###Leaders and Moderators
 
-create virtual enviroment
+####IRC Channel Moderators
+* meskarune
+* tigrmesh
+* ioni
+* vodik
+* fsckd
+* yar
+* escondida
 
-    virutalenv2 /srv/http/blog/flask
+####Website Administrators
+* meskarune
+* tigrmesh
+* yar
+* fsckd
 
-Activate the virtual enviroment you created
-
-    source /srv/http/blog/flask/bin/activate
-
-Install the application dependances
-
-    pip install -r /srv/http/blog/app/requirements.txt
-
+####Project Affiliations
+* [Ubuntu Women](http://wiki.ubuntu-women.org/)
+* [Linux Chix](http://www.linuxchix.org/)
+* [Fedora Women](https://fedoraproject.org/wiki/Women)
