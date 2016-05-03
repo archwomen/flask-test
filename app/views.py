@@ -34,7 +34,7 @@ mail.init_app(app)
 @app.template_filter('markdown')
 def markdown_filter(text):
     """ Convert markdown to html """
-    return Markup(markdown(text, extensions=[CodeHiliteExtension(css_class='highlight'), ExtraExtension()]))
+    return Markup(markdown(text, extensions=[CodeHiliteExtension(linenums=False, css_class='highlight'), ExtraExtension()]))
 
 @app.route('/pygments.css')
 def pygments_css():

@@ -18,18 +18,12 @@ a:hover, a:active {
 article, .highlighttable pre {
   padding: 0 1em 0 1em;
 }
-pre {
+pre, code {
   font-family: 'Consolas', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
   background: #222;
-  line-height: 130%;
 }
-.highlighttable {
-  border-collapse: collapse;
-  border-spacing: 0;
-  background: #222;
-}
-.linenos {
-  color: #75715e;
+pre {
+  padding: 1em;
 }
 /* Grid */
 .clearfix:before, .clearfix:after {
