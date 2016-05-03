@@ -34,21 +34,17 @@ mail.init_app(app)
 @app.template_filter('markdown')
 def markdown_filter(text):
     """ Convert markdown to html """
-    return Markup(markdown(text, extensions=[CodeHiliteExtension(linenums=True, css_class='highlight'), ExtraExtension()]))
+    return Markup(markdown(text, extensions=[CodeHiliteExtension(css_class='highlight'), ExtraExtension()]))
+
+@app.route('/pygments.css')
+def pygments_css():
+    formatter = HtmlFormatter(style='monokai', nobackground=True)
+    defs = formatter.get_style_defs('.highlight')
+    return defs, 200, {'Content-Type': 'text/css'}
 
 @app.route('/')
 def index():
     return render_template('index.html', title='Home')
-
-#@app.route('/contact', methods=['POST'])
-#def contact():
-#    msg = Message(form.subject.data, sender='contact@archwomen.org', recipients=['admin@archwomen.org'])
-#    msg.body = """
-#    From: %s <%s>
-#    %s
-#    """ % (form.name.data, form.email.data, form.message.data)
-#    mail.send(msg)
-#    return 'Form posted.'
 
 @app.route('/contact/', methods=['GET', 'POST'])
 def contact():
@@ -68,25 +64,18 @@ def contact():
     elif request.method == 'GET':
         return render_template('contact.html', form=form)
 
-@app.route('/pygments.css')
-def pygments_css():
-    formatter = HtmlFormatter(style='monokai', linenos='table', nobackground=True)
-    defs = formatter.get_style_defs('.highlight')
-    return defs, 200, {'Content-Type': 'text/css'}
+@app.route('/<path:webpage>/')
+def page(webpage):
+    page = 'app/content/pages/%s%s'%(webpage, '.md')
+    if os.path.isfile(page):
+        with open(page, 'r') as f:
+            content = f.read()
+            return render_template('page.html', page_html=content, title=webpage)
+    else:
+        abort(404)
 
-#@app.route('/<path:webpage>/')
-#def page(webpage):
-#    page = 'app/content/pages/%s%s'%(webpage, '.md')
-#    if os.path.isfile(page):
-#        with open(page, 'r') as f:
-#            content = f.read()
-#            return render_template('page.html', page_html=content, title=webpage)
-#    else:
-#        return render_template('page.html', page_html=webpage, title="test")
-#        #abort(404)
-
-@app.route('/feed')
-@app.route('/feed.atom')
+@app.route('/blog/feed')
+@app.route('/blog/feed.atom')
 def feed():
     xml = render_template('atom.xml', **locals())
     return app.response_class(xml, mimetype='application/atom+xml')

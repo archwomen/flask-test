@@ -2,9 +2,9 @@
 {% block content %}
   <article>
     <h1>Contact</h1>
-  {% if success %}
-    <h3>Thank you for your message. We'll get back to you shortly.</h3>
-  {% else %}
+    {% if success %}
+      <h3>Thank you for your message. We'll get back to you shortly.</h3>
+    {% else %}
     {% for message in form.name.errors %}
       <div class="flash">{{ message }}</div>
     {% endfor %}
