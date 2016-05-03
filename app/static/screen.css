@@ -21,6 +21,7 @@ article, .highlighttable pre {
 pre, code {
   font-family: 'Consolas', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
   background: #222;
+  font-size: 1rem;
 }
 pre {
   padding: 1em;
