@@ -24,6 +24,8 @@ pre, code {
 }
 pre {
   padding: 1em;
+  overflow: auto;
+  white-space: pre;
 }
 /* Grid */
 .clearfix:before, .clearfix:after {
