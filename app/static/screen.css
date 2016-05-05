@@ -28,6 +28,11 @@ pre {
   overflow: auto;
   white-space: pre;
 }
+.error {
+  color: rgb(255, 37, 68);
+  padding-left: 1em;
+  font-weight: bold;
+}
 /* Grid */
 .clearfix:before, .clearfix:after {
   content: " ";
@@ -113,7 +118,10 @@ input[type=text], input[type=email], input[type=submit], #message {
   background: #222;
   color: #efefef;
   padding: .8em;
-  margin: 1em;
+  margin: 1em 0em;
+}
+form dd {
+  margin: 0;
 }
 #contact input[type=submit] {
   background: #222;

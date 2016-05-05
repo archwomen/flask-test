@@ -3,26 +3,17 @@
     Routes for the website
 """
 import os.path
+import codecs
 from pygments.formatters import HtmlFormatter
 from flask import render_template, Markup, abort, safe_join, request, flash
-from flask_mail import Message, Mail
+from flask.ext.sendmail import Message, Mail
 from markdown import markdown
 from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.extra import ExtraExtension
 from contact import ContactForm
 from app import app
  
-mail = Mail()
-
-app.secret_key = 'development key'
- 
-app.config["MAIL_SERVER"] = "smtp.zoho.com"
-app.config["MAIL_PORT"] = 465
-app.config["MAIL_USE_SSL"] = True
-app.config["MAIL_USERNAME"] = 'admin@archwomen.org'
-app.config["MAIL_PASSWORD"] = 'your-password'
- 
-mail.init_app(app)
+mail = Mail(app)
 
 # For restructured text
 #from docutils.core import publish_parts
@@ -49,26 +40,32 @@ def index():
 @app.route('/contact/', methods=['GET', 'POST'])
 def contact():
     form = ContactForm()
-    if request.method == 'POST':
-        if form.validate() == False:
-            flash('All fields are required.')
-            return render_template('contact.html', form=form)
-        else:
-            msg = Message(form.subject.data, sender='contact@archwomen.org', recipients=['admin@archwomen.org'])
-            msg.body = """
-            From: %s &lt;%s&gt;
-            %s
-            """ % (form.name.data, form.email.data, form.message.data)
-            mail.send(msg)
-            return render_template('contact.html', success=True)
-    elif request.method == 'GET':
+    if request.method == 'POST' and form.validate():
+        msg = render_template("email.txt",
+                        name=form.name.data,
+                        email=form.email.data,
+                        subject=form.subject.data,
+                        message=form.message.data)
+        mail.send(msg)
+        return render_template('contact.html', success=True)
+    else:
         return render_template('contact.html', form=form)
+
+@app.route('/blog/<year>/<month>/<day>/<slug>/')
+def blog_page(year, month, day, slug):
+    page = 'app/content/posts/%s-%s-%s-%s%s'%(year, month, day, slug, '.md')
+    if os.path.isfile(page):
+        with codecs.open(page, encoding='utf-8', mode='r+') as f:
+            content = f.read()
+            return render_template('page.html', page_html=content, title=slug)
+    else:
+        abort(404)
 
 @app.route('/<path:webpage>/')
 def page(webpage):
     page = 'app/content/pages/%s%s'%(webpage, '.md')
     if os.path.isfile(page):
-        with open(page, 'r') as f:
+        with codecs.open(page, encoding='utf-8', mode='r+') as f:
             content = f.read()
             return render_template('page.html', page_html=content, title=webpage)
     else:

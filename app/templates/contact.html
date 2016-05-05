@@ -4,30 +4,26 @@
     <h1>Contact</h1>
     {% if success %}
       <h3>Thank you for your message. We'll get back to you shortly.</h3>
-    {% else %}
-    {% for message in form.name.errors %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
-    {% for message in form.email.errors %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
-    {% for message in form.subject.errors %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
-    {% for message in form.message.errors %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
-    <form action="{{ url_for('contact') }}" method=post>
-      {{ form.name.label }}
-      {{ form.name }}
-      {{ form.email.label }}
-      {{ form.email }}
-      {{ form.subject.label }}
-      {{ form.subject }}
-      {{ form.message.label }}
-      {{ form.message }}
-      {{ form.submit }}
-    </form>
-  {% endif %}
+      {% else %}
+      {% macro render_field(field) %}
+        <dt>{{ field.label }}
+        {% if field.errors %}
+          {% for error in field.errors %}
+              <span class="error">{{ error }}</span>
+          {% endfor %}
+        {% endif %}
+        </dt>
+        <dd>{{ field(**kwargs)|safe }}</dd>
+      {% endmacro %}
+      <form action="{{ url_for('contact') }}" method=post>
+        <dl>
+          {{ render_field(form.name) }}
+          {{ render_field(form.email) }}
+          {{ render_field(form.subject) }}
+          {{ render_field(form.message) }}
+        </dl>
+        {{ form.submit }}
+      </form>
+    {% endif %}
   <article>
 {% endblock %}
