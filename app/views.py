@@ -2,17 +2,19 @@
 """
     Routes for the website
 """
-import os.path
+import os.popen, os.path
 import codecs
 from pygments.formatters import HtmlFormatter
 from flask import render_template, Markup, abort, safe_join, request, flash
-from flask.ext.sendmail import Message, Mail
 from markdown import markdown
 from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.extra import ExtraExtension
 from contact import ContactForm
 from app import app
- 
+
+
+MAIL_MAILER = "/usr/bin/sendmail"
+DEFAULT_MAIL_SENDER = "contact@archwomen.org"
 mail = Mail(app)
 
 # For restructured text
@@ -46,8 +48,13 @@ def contact():
                         email=form.email.data,
                         subject=form.subject.data,
                         message=form.message.data)
-        mail.send(msg)
-        return render_template('contact.html', success=True)
+        p = os.popen("/usr/bin/sendmail -t -i", "w")
+        p.write(msg)
+        status = p.close()
+        if status:
+            return render_template('contact.html', success=False)
+        else:
+            return render_template('contact.html', success=True)
     else:
         return render_template('contact.html', form=form)
 
