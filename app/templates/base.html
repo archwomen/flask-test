@@ -29,7 +29,7 @@
       <nav id="navigation" role="navigation">
         <h2>
           <a href="{{ url_for("index") }}">
-            <img id="logo" alt="home" width="196" height="50" src="/static/images/archwomen.png">
+            <img id="logo" alt="home" width="196" height="50" src="{{ url_for('static', filename='images/archwomen.png') }}">
           </a>
         </h2>
         <input type="checkbox" id="toggle">
@@ -177,7 +177,7 @@
         <h3>Sponsors</h3>
         <p>
           <a href="https://www.digitalocean.com/">
-            <img width="140" height="39" alt="digital ocean" src="/static/images/digitalocean.png">
+            <img width="140" height="39" alt="digital ocean" src="{{ url_for('static', filename='images/digitalocean.png') }}">
           </a>
         </p>
         <p>
@@ -193,7 +193,7 @@
             <span>Arch Women runs off <del>love</del></span>
             <input type="hidden" name="cmd" value="_s-xclick">
             <input type="hidden" name="hosted_button_id" value="PGCY3UUYM3VUW">
-            <input type="image" alt="coffee" src="/static/images/coffee.png" name="submit">
+            <input type="image" alt="coffee" src=" {{ url_for('static', filename='images/coffee.png') }}" name="submit">
             <img alt="PayPal - The safer, easier way to pay online!" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
           </p>
         </form>

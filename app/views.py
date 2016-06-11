@@ -2,7 +2,7 @@
 """
     Routes for the website
 """
-import os.popen, os.path
+import os
 import codecs
 from pygments.formatters import HtmlFormatter
 from flask import render_template, Markup, abort, safe_join, request, flash
@@ -12,10 +12,6 @@ from markdown.extensions.extra import ExtraExtension
 from contact import ContactForm
 from app import app
 
-
-MAIL_MAILER = "/usr/bin/sendmail"
-DEFAULT_MAIL_SENDER = "contact@archwomen.org"
-mail = Mail(app)
 
 # For restructured text
 #from docutils.core import publish_parts
@@ -40,6 +36,13 @@ def index():
     return render_template('index.html', title='Home')
 
 @app.route('/contact/', methods=['GET', 'POST'])
+def flash_errors(form):
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(u"Error in the %s field - %s" % (
+                getattr(form, field).label.text,
+                error
+            ))
 def contact():
     form = ContactForm()
     if request.method == 'POST' and form.validate():
@@ -48,14 +51,14 @@ def contact():
                         email=form.email.data,
                         subject=form.subject.data,
                         message=form.message.data)
-        p = os.popen("/usr/bin/sendmail -t -i", "w")
+        p = os.popen("/usr/bin/sendmail -f contact@archwomen.org -t -i", "w")
         p.write(msg)
-        status = p.close()
+        status = ip.close()
         if status:
-            return render_template('contact.html', success=False)
-        else:
-            return render_template('contact.html', success=True)
+            flash(u"%s"%(status))
+        return render_template('contact.html', success=True)
     else:
+        flash_errors(form)
         return render_template('contact.html', form=form)
 
 @app.route('/blog/<year>/<month>/<day>/<slug>/')
