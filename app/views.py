@@ -10,7 +10,7 @@ from flask import render_template, Markup, abort, safe_join, request, flash
 from markdown import markdown
 from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.extra import ExtraExtension
-from contact import ContactForm
+from app.contact import ContactForm
 from app import app
 
 
