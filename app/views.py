@@ -4,6 +4,7 @@
 """
 import os
 import codecs
+import feedparser
 from pygments.formatters import HtmlFormatter
 from flask import render_template, Markup, abort, safe_join, request, flash
 from markdown import markdown
@@ -33,16 +34,10 @@ def pygments_css():
 
 @app.route('/')
 def index():
-    return render_template('index.html', title='Home')
+    feed = feedparser.parse('https://archwomen.org/blog/feed.atom').entries
+    return render_template('index.html', entries=feed[0:6], title='Home')
 
 @app.route('/contact/', methods=['GET', 'POST'])
-def flash_errors(form):
-    for field, errors in form.errors.items():
-        for error in errors:
-            flash(u"Error in the %s field - %s" % (
-                getattr(form, field).label.text,
-                error
-            ))
 def contact():
     form = ContactForm()
     if request.method == 'POST' and form.validate():
@@ -56,10 +51,15 @@ def contact():
         status = ip.close()
         if status:
             flash(u"%s"%(status))
-        return render_template('contact.html', success=True)
+        flash("Your message has been sent. Thank you!", "success")
     else:
-        flash_errors(form)
-        return render_template('contact.html', form=form)
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(u"Error in the %s field - %s" % (
+                    getattr(form, field).label.text,
+                    error
+                ))
+    return render_template('contact.html', form=form)
 
 @app.route('/blog/<year>/<month>/<day>/<slug>/')
 def blog_page(year, month, day, slug):
