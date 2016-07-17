@@ -84,7 +84,7 @@ pre {
   margin:0;
 }
 #logo {
-  margin: 0.5em 0px 0.2em 0.5em;
+  margin: 1.5rem 0 0 .5rem;
 }
 .toggle, #toggle {
   float: right;
