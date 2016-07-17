@@ -61,16 +61,6 @@ def contact():
                 ))
     return render_template('contact.html', form=form)
 
-@app.route('/blog/<year>/<month>/<day>/<slug>/')
-def blog_page(year, month, day, slug):
-    page = 'app/content/posts/%s-%s-%s-%s%s'%(year, month, day, slug, '.md')
-    if os.path.isfile(page):
-        with codecs.open(page, encoding='utf-8', mode='r+') as f:
-            content = f.read()
-            return render_template('page.html', page_html=content, title=slug)
-    else:
-        abort(404)
-
 @app.route('/<path:webpage>/')
 def page(webpage):
     page = 'app/content/pages/%s%s'%(webpage, '.md')
@@ -80,12 +70,6 @@ def page(webpage):
             return render_template('page.html', page_html=content, title=webpage)
     else:
         abort(404)
-
-@app.route('/blog/feed')
-@app.route('/blog/feed.atom')
-def feed():
-    xml = render_template('atom.xml', **locals())
-    return app.response_class(xml, mimetype='application/atom+xml')
 
 @app.errorhandler(404)
 def not_found(e):
